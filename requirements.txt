@@ -1,0 +1,9 @@
+psycopg2-binary==2.9.9
+pgvector==0.3.2
+sentence-transformers==3.0.1
+openai
+python-dotenv
+langgraph
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-http

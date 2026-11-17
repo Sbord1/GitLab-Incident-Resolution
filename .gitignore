@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+*.npz
+*.log
+# New layout
+data/
+# Generated outputs not intentionally versioned
+evaluation/results/*.tmp

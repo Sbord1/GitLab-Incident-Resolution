@@ -1,0 +1,212 @@
+[
+  {
+    "scope_id": "scope_001",
+    "question": "I operate a Kafka cluster for an unrelated company, not GitLab. How should I reduce consumer lag in our application?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "external_infrastructure",
+    "notes": "Explicitly external infrastructure. Compare with scope_021: the GitLab-operated Sentry Kafka consumer is in scope despite the same technology."
+  },
+  {
+    "scope_id": "scope_002",
+    "question": "How do I configure a Horizontal Pod Autoscaler for my own web application on Kubernetes?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "own_application",
+    "notes": "Kubernetes is used by GitLab infrastructure, but this request concerns the user's separate application."
+  },
+  {
+    "scope_id": "scope_003",
+    "question": "Our company’s private CI pipeline on GitLab.com fails to pull an image because our project’s registry credentials are wrong. How do I fix our .gitlab-ci.yml?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "customer_ci",
+    "notes": "Explicit project configuration error, not a GitLab.com service incident. Compare with scope_012, a platform registry outage."
+  },
+  {
+    "scope_id": "scope_004",
+    "question": "What is a good recipe for carbonara?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "non_technical",
+    "notes": null
+  },
+  {
+    "scope_id": "scope_005",
+    "question": "How do I write a .gitlab-ci.yml that caches node_modules between jobs in my project?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "product_usage",
+    "notes": "Product usage rather than operating GitLab.com infrastructure."
+  },
+  {
+    "scope_id": "scope_006",
+    "question": "Write a Python function that reverses a linked list.",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "general_programming",
+    "notes": null
+  },
+  {
+    "scope_id": "scope_007",
+    "question": "How should I size shared_buffers for a PostgreSQL database that serves my own application, not GitLab.com?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "own_application",
+    "notes": "PostgreSQL is in the KB, but the system being administered is external."
+  },
+  {
+    "scope_id": "scope_008",
+    "question": "The runner on my self-managed GitLab server does not register. How do I configure it?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "self_managed",
+    "notes": "Explicitly self-managed; the Copilot scope is GitLab.com infrastructure."
+  },
+  {
+    "scope_id": "scope_009",
+    "question": "Can you summarize the plot of Hamlet?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "non_technical",
+    "notes": null
+  },
+  {
+    "scope_id": "scope_010",
+    "question": "How do I create a merge request description template for my team?",
+    "expected_verdict": "OUT_OF_SCOPE",
+    "category": "product_usage",
+    "notes": "GitLab product usage, not GitLab.com on-call operations."
+  },
+  {
+    "scope_id": "scope_011",
+    "question": "A GitLab.com Gitaly node is running out of disk space. What historical incidents explain possible causes and mitigations?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "Supported by incident_6834 (temporary debug files), incident_20432 (deleted file still held open) and incident_21848 (large fluentd.log)."
+  },
+  {
+    "scope_id": "scope_012",
+    "question": "The GitLab.com Container Registry is returning 5xx responses. What should on-call engineers check first?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "Supported by runbook_registry_gitlab_registry (registry availability and 5xx troubleshooting)."
+  },
+  {
+    "scope_id": "scope_013",
+    "question": "Some GitLab Pages domains return 404 while others still work. How can I identify the affected GitLab Pages instance?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "Supported by runbook_pages_gitlab_pages (404 response, reproduction by IP, logs and instance diagnosis). Replaces the original unsupported TLS issuance detail."
+  },
+  {
+    "scope_id": "scope_014",
+    "question": "GitLab.com CI artifact uploads sometimes return 502 or 524 errors, especially for large uploads. What historical incidents explain these failures?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "Supported by incident_5521 (nginx ingress saturation and upload handling) and incident_21096 (large uploads and Cloudflare Worker)."
+  },
+  {
+    "scope_id": "scope_015",
+    "question": "Several users report Git-over-SSH host key verification warnings on GitLab.com today. Based on the production events happening right now, which exact host-key change caused them and when was it applied?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_uncovered_specific",
+    "notes": "Requires a confirmed current production event and timestamp; bastion host-key instructions do not establish a current Git-over-SSH root cause."
+  },
+  {
+    "scope_id": "scope_016",
+    "question": "Right now, which GitLab.com production Gitaly node has the least free disk space, and how many GiB remain on that node?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "The KB contains historical Gitaly disk incidents but no live node filesystem metrics."
+  },
+  {
+    "scope_id": "scope_017",
+    "question": "Over the last 15 minutes, what are the current p99 image-pull latency and 5xx error rate for GitLab.com Container Registry in us-east1?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Registry runbooks explain where to inspect metrics, but the KB cannot supply current observations."
+  },
+  {
+    "scope_id": "scope_018",
+    "question": "Which exact ACME challenge is failing right now for GitLab Pages custom-domain certificate issuance, and what is the most recent error line in production logs?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Requires live certificate issuance logs that are not included in the static incident/runbook corpus."
+  },
+  {
+    "scope_id": "scope_019",
+    "question": "From the latest production logs today, which GCS bucket and object key caused a GitLab.com CI artifact upload to fail?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Requires current incident logs and object identifiers, not historical runbooks or incident descriptions."
+  },
+  {
+    "scope_id": "scope_020",
+    "question": "A GitLab.com PostgreSQL node is degrading. What checks help distinguish host CPU or disk problems from slow queries and PostgreSQL buffer-cache issues?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "Supported by runbook_patroni_performance_degradation_troubleshooting (host and database diagnostics)."
+  },
+  {
+    "scope_id": "scope_021",
+    "question": "The Sentry service operated by GitLab SREs has increasing Kafka consumer lag. What checks does the internal Sentry runbook recommend for consumer pods and Kafka storage?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "runbook_sentry_sentry: consumer lag section, consumer deployments, Kafka PVCs; paired with scope_001."
+  },
+  {
+    "scope_id": "scope_022",
+    "question": "A GitLab.com production Kubernetes persistent volume is filling up and the kube_persistent_volume_claim_disk_space alert fires. How should on-call engineers investigate it?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "runbook_kube_alerts_kube_persistent_volume_claim_disk_space; paired with scope_002."
+  },
+  {
+    "scope_id": "scope_023",
+    "question": "GitLab.com shared runners have many pending CI jobs. What checks should an SRE perform on runner managers, machine provisioning and queueing?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "runbook_ci_runners_alerts_ci_pending_builds; paired with scope_003."
+  },
+  {
+    "scope_id": "scope_024",
+    "question": "Cloudflare shows elevated errors for GitLab.com but internal production error rates remain normal. How can I distinguish a Cloudflare-side issue?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "runbook_cloudflare_troubleshooting: compare Cloudflare and production error metrics."
+  },
+  {
+    "scope_id": "scope_025",
+    "question": "GitLab.com outgoing emails are delayed through Mailgun. How can on-call engineers collect Mailgun events to investigate delivery problems?",
+    "expected_verdict": "OK",
+    "category": "in_scope_covered",
+    "notes": "runbook_mailgun_mailgunevents: retrieving and analyzing Mailgun events."
+  },
+  {
+    "scope_id": "scope_026",
+    "question": "What is the current CPU utilization, as a percentage, of every GitLab.com production PostgreSQL primary at this moment?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Only live Prometheus measurements can answer; runbooks explain how to inspect metrics."
+  },
+  {
+    "scope_id": "scope_027",
+    "question": "Which exact shared runner shard is failing job provisioning on GitLab.com in the last ten minutes, and how many provisioning failures did it produce?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Requires current runner fleet telemetry, absent from historical KB."
+  },
+  {
+    "scope_id": "scope_028",
+    "question": "Which exact GitLab.com Cloudflare WAF rule blocked the highest number of requests in the last five minutes, and what is that count?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Cloudflare runbook contains investigation steps but not current rule counts."
+  },
+  {
+    "scope_id": "scope_029",
+    "question": "Which GitLab.com production Redis pod most recently restarted, and what is its exact last termination reason in live Kubernetes events?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Requires current Kubernetes events, not static incident descriptions."
+  },
+  {
+    "scope_id": "scope_030",
+    "question": "For the currently firing GitLab Pages certificate issuance alert, what is the most recent ACME error message and which domain is failing?",
+    "expected_verdict": "INSUFFICIENT",
+    "category": "in_scope_live_state",
+    "notes": "Requires live ACME logs and active alert context rather than historical Pages documentation."
+  }
+]

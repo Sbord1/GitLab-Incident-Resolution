@@ -1,0 +1,273 @@
+[
+  {
+    "eval_id": "eval_001",
+    "question": "During the GitLab.com namespaces-table outage, PostgreSQL selected a recursive execution plan and the primary became unavailable for about four minutes. What chain of database effects caused the loss of availability, and what evidence distinguishes this incident from ordinary slow-query degradation?",
+    "expected_source_doc_ids": [
+      "incident_4024", "incident_3875"
+    ],
+    "style": "narrative",
+    "notes": "Historical incident lookup: the namespaces query-plan regression and temporary loss of the primary are jointly distinctive; don't treat unrelated query-plan incidents as equivalent."
+  },
+  {
+    "eval_id": "eval_002",
+    "question": "On GitLab.com Patroni, PostgreSQL latency increases while the database remains reachable. Which host-level and PostgreSQL-level metrics, dashboards, and checks would you correlate to distinguish CPU, memory, disk I/O or network saturation from query contention?",
+    "expected_source_doc_ids": [
+      "runbook_patroni_performance_degradation_troubleshooting","incident_3816"
+    ],
+    "style": "prescriptive",
+    "notes": "'How do I...' style question, typical of someone consulting a runbook."
+  },
+  {
+    "eval_id": "eval_003",
+    "question": "A `PatroniLongRunningTransactionDetected` alert identifies a transaction older than the alert threshold. How do you identify the PostgreSQL backend, trace its connection through PgBouncer to the originating client, and determine whether and how to cancel the query safely?",
+    "expected_source_doc_ids": [
+      "runbook_patroni_postgres_long_running_transaction",
+      "runbook_patroni_alerts_patronilongrunningtransactiondetected"
+    ],
+    "style": "prescriptive",
+    "notes": "Prescriptive lookup of the long-running-transaction diagnosis procedure. incident_7297 was removed: that incident describes autovacuum ANALYZE holding a snapshot and does not provide the same cancellation workflow."
+  },
+  {
+    "eval_id": "eval_004",
+    "question": "The `sidekiq_queueing` SLI breaches its Apdex SLO on a GitLab.com Sidekiq shard. Which dashboards and per-worker signals should you inspect first to decide whether the delay is caused by shard-wide saturation, a particular queue or worker, or an upstream dependency?",
+    "expected_source_doc_ids": [
+      "runbook_sidekiq_sidekiq_queueing_apdex","incident_20043","incident_20035"
+    ],
+    "style": "prescriptive",
+    "notes": "Specifies the Sidekiq queueing alert; the previous question could describe any background job bottleneck."
+  },
+  {
+    "eval_id": "eval_005",
+    "question": "GitLab.com CI pipelines fail across both shared and private runners with `undefined method load_balancer`. What regression produced this Ruby error, which execution path was affected, and how was the incident mitigated?",
+    "expected_source_doc_ids": [
+      "incident_5931"
+    ],
+    "style": "narrative",
+    "notes": "Includes a very specific technical detail (the method name) to test whether retrieval exploits it."
+  },
+  {
+    "eval_id": "eval_006",
+    "question": "External clients cannot reach GitLab.com, while internal services remain healthy and a Cloudflare DNS/CDN disruption is suspected. Which checks establish that the failure is at the edge rather than in GitLab services, and what are the prescribed response and escalation steps?",
+    "expected_source_doc_ids": [
+      "runbook_cloudflare_cloudflare_is_down","incident_2433"
+    ],
+    "style": "prescriptive",
+    "notes": "Operational/runbook test, not a request to identify a particular historical outage. The 2022 Cloudflare incident is evaluated separately in eval_013."
+  },
+  {
+    "eval_id": "eval_007",
+    "question": "Elasticsearch hot nodes show disk pressure, unassigned shards and delayed ILM transitions. Which cluster-health, allocation, disk-watermark and index-lifecycle checks should an on-call engineer perform, and how should the findings guide remediation?",
+    "expected_source_doc_ids": [
+      "runbook_elastic_disk_space_saturation"
+    ],
+    "style": "prescriptive",
+    "notes": "Specifies Elasticsearch/ILM. The original generic disk-saturation question was consistent with many different runbooks and incidents."
+  },
+  {
+    "eval_id": "eval_008",
+    "question": "Shared GitLab CI jobs are stuck pending. How do you use the `ci_pending_builds` alert and CI runner dashboards to distinguish a runner-manager bottleneck, insufficient capacity, and failures to provision or connect ephemeral job VMs?",
+    "expected_source_doc_ids": [
+      "runbook_ci_runners_alerts_ci_pending_builds"
+    ],
+    "style": "prescriptive",
+    "notes": "Narrows the task to the CI pending-builds runbook, distinguishing it from general runner outages."
+  },
+  {
+    "eval_id": "eval_009",
+    "question": "During GitLab.com 2FA enrollment, newly generated TOTP codes are rejected as `Invalid PIN` even when entered from the authenticator. Which underlying incident mechanism explains the mismatch, and what fixed it?",
+    "expected_source_doc_ids": [
+      "incident_6728"
+    ],
+    "style": "narrative",
+    "notes": "Corrected factual mismatch: incident_6728 concerns invalid TOTP PINs during 2FA setup, not a correct account password being rejected at sign-in."
+  },
+  {
+    "eval_id": "eval_010",
+    "question": "GitLab.com records a short spike of 5xx responses across API, Git and Web while a single group receives roughly 17,000 subgroup-listing API requests. What resource or request-processing failure linked this traffic pattern to the errors, and how was service restored?",
+    "expected_source_doc_ids": [
+      "incident_7361"
+    ],
+    "style": "narrative",
+    "notes": "Historical incident lookup for the five-minute 50x spike associated with excessive subgroup API requests. incident_6832 is a separate Git-operation feature-flag regression, not an equivalent answer."
+  },
+  {
+    "eval_id": "eval_011",
+    "question": "GitLab Service Desk stops receiving previously working forwarded email messages. Which components in the inbound-mail path were involved in the documented incident, how was the failure isolated, and what mitigation restored delivery?",
+    "expected_source_doc_ids": [
+      "incident_7029"
+    ],
+    "style": "narrative",
+    "notes": "Corrects grammar and distinguishes forwarded Service Desk mail from generic inbound email or user authentication issues."
+  },
+  {
+    "eval_id": "eval_012",
+    "question": "GitLab.com users see `Unable to save project` when creating a project. What failed in the documented incident behind this exact error, and which remediation restored project creation?",
+    "expected_source_doc_ids": [
+      "incident_20279"
+    ],
+    "style": "narrative",
+    "notes": "uses key words"
+  },
+  {
+    "eval_id": "eval_013",
+    "question": "During the June 2022 GitLab.com disruption, Web, API and Git traffic was unavailable in several countries while the CDN/DNS layer was affected. What specific external failure caused the geographic impact and how did the mitigation restore connectivity?",
+    "expected_source_doc_ids": [
+      "incident_7288"
+    ],
+    "style": "narrative",
+    "notes": "Historical lookup anchored to the June 2022 event; the original description also matched the separate July 2020 Cloudflare outage (incident_2433)."
+  },
+  {
+    "eval_id": "eval_014",
+    "question": "Staging QA returns HTTP 500 with `repository has no up to date replicas`, blocking GitLab deployments. Which Gitaly-related change triggered this failure, how was the faulty state diagnosed, and what mitigation unblocked deployments?",
+    "expected_source_doc_ids": [
+      "incident_6991"
+    ],
+    "style": "narrative",
+    "notes": "The Gitaly error distinguishes incident_6991 from incident_6179, which was caused by missing PgBouncer configuration during a Patroni CI cluster rebuild."
+  },
+  {
+    "eval_id": "eval_015",
+    "question": "GitLab.com experiences intermittent slowness and Sidekiq delays while Consul agents in GKE pods are OOM-killed. Explain the service-discovery and database-routing chain that turns these failures into excess load on the PostgreSQL primary.",
+    "expected_source_doc_ids": [
+      "incident_6907"
+    ],
+    "style": "narrative",
+    "notes": "Explicitly tests the OOM -> Consul replica-discovery failure -> primary fallback mechanism documented in incident_6907."
+  },
+  {
+    "eval_id": "eval_016",
+    "question": "GitLab.com Git fetch/clone requests become slow while a Gitaly host exhibits elevated CPU and memory use. Which host, process and Gitaly-specific checks can identify the responsible workload, and what operational mitigations does the runbook support?",
+    "expected_source_doc_ids": [
+      "runbook_gitaly_git_high_cpu_and_memory_usage"
+    ],
+    "style": "prescriptive",
+    "notes": null
+  },
+  {
+    "eval_id": "eval_017",
+    "question": "A Patroni cluster appears to have lost its elected primary, but the old leader may still accept writes. Which consistency and cluster-state checks must be completed before promotion or failover to avoid split-brain and loss of committed transactions?",
+    "expected_source_doc_ids": [
+      "runbook_patroni_primary_unresponsive_assess_before_failover","runbook_patroni_patroni_management"
+    ],
+    "style": "prescriptive",
+    "notes": null
+  },
+  {
+    "eval_id": "eval_018",
+    "question": "GitLab-hosted Linux runner jobs remain pending despite an available runner manager. How can an SRE separately verify ephemeral VM provisioning and the new VM's connectivity to GitLab.com or the CI Gateway, and interpret each failure mode?",
+    "expected_source_doc_ids": [
+      "runbook_ci_runners_linux_debugging","runbook_ci_runners_troubleshooting_guide"
+    ],
+    "style": "prescriptive",
+    "notes": "Targets the two-part ephemeral-VM creation/connectivity workflow rather than generic CI runner troubleshooting."
+  },
+  {
+    "eval_id": "eval_019",
+    "question": "A Prometheus instance on a GitLab monitoring host is down. Which service-management commands, log locations and dependency checks does the runbook use to determine why the process failed and whether it can be restarted safely?",
+    "expected_source_doc_ids": [
+      "runbook_monitoring_prometheus_is_down"
+    ],
+    "style": "prescriptive",
+    "notes": "Targets the Prometheus-is-down procedure rather than general alerts or monitoring symptoms."
+  },
+  {
+    "eval_id": "eval_020",
+    "question": "A GitLab Redis primary has sustained high CPU and growing command latency. Which Redis metrics and command-level diagnostics identify the workload driving CPU consumption, and how can an on-call engineer distinguish command pressure from host saturation?",
+    "expected_source_doc_ids": [
+      "runbook_redis_redis_survival_guide_for_sres"
+    ],
+    "style": "prescriptive",
+    "notes": "runbook very big, it has multiple problems"
+  },
+  {
+    "eval_id": "eval_021",
+    "question": "A Redis primary repeatedly fails over even though its process stays alive. How can workload saturation interfere with Sentinel health checks, which observations would confirm that mechanism, and what immediate mitigations are appropriate?",
+    "expected_source_doc_ids": [
+      "runbook_redis_redis_survival_guide_for_sres"
+    ],
+    "style": "prescriptive",
+    "notes": "runbook very big, it has multiple problems"
+  },
+  {
+    "eval_id": "eval_022",
+    "question": "PgBouncer connections are saturated on a subset of GitLab.com instances while peers remain lightly loaded. Which PgBouncer, load-balancer and host checks would distinguish uneven traffic distribution from a degraded or unreachable node?",
+    "expected_source_doc_ids": [
+      "runbook_pgbouncer_pgbouncer_saturation"
+    ],
+    "style": "prescriptive",
+    "notes": null
+  },
+  {
+    "eval_id": "eval_023",
+    "question": "Sidekiq suddenly opens enough database connections to exhaust PgBouncer pools. Which pool statistics, client-connection metrics and application-side signals can identify the source of the connection spike and guide containment?",
+    "expected_source_doc_ids": [
+      "runbook_pgbouncer_pgbouncer_saturation","runbook_pgbouncer_pgbouncer_connections"
+    ],
+    "style": "prescriptive",
+    "notes": null
+  },
+  {
+    "eval_id": "eval_024",
+    "question": "GitLab shared runner queues grow and autoscaling cannot provision ephemeral machines quickly enough during a traffic surge. In the documented incident, which demand pattern and cloud-provider constraint prevented sufficient VM creation?",
+    "expected_source_doc_ids": [
+      "incident_4066"
+    ],
+    "style": "narrative",
+    "notes": "Runner jobs queued up because abuse and increased demand overwhelmed VM provisioning, with GCP API quotas limiting autoscaling"
+  },
+  {
+    "eval_id": "eval_025",
+    "question": "GitLab runner managers fail to contact newly created job runners in one Google Cloud zone, delaying CI jobs. Which network or zone-specific failure caused the connectivity problem, and how was it diagnosed or mitigated?",
+    "expected_source_doc_ids": [
+      "incident_4055"
+    ],
+    "style": "narrative",
+    "notes": "Runner managers could not reach newly created runners because of a Google Cloud networking issue."
+  },
+  {
+    "eval_id": "eval_026",
+    "question": "GitLab.com outbound email notifications fail while Mailgun remains operational and no application deployment occurred. What TLS or certificate-validation path failed between Kubernetes workloads and Mailgun, and what remediation restored delivery?",
+    "expected_source_doc_ids": [
+      "incident_5111"
+    ],
+    "style": "narrative",
+    "notes": "Outbound emails failed because Kubernetes pods were using an outdated CA certificate package, causing SSL certificate verification errors when connecting to Mailgun"
+  },
+  {
+    "eval_id": "eval_027",
+    "question": "GitLab.com API statement timeouts spike after an engineer executes a read-only debugging query on the PostgreSQL primary. How did the query cause customer-facing errors despite being read-only, and what mitigation ended the incident?",
+    "expected_source_doc_ids": [
+      "incident_5123"
+    ],
+    "style": "narrative",
+    "notes": "Corrected unrelated Mailgun note. Incident_5123 describes a 13-minute API error increase from a long-running read-only debugging query on the primary database."
+  },
+  {
+    "eval_id": "eval_028",
+    "question": "GitLab.com Web nodes intermittently return HTTP 500 or Bad Gateway and are removed from load-balancer rotation. In the documented incident, what infrastructure or application condition caused nodes to fail health checks, and how was it resolved?",
+    "expected_source_doc_ids": [
+      "incident_5205"
+    ],
+    "style": "narrative",
+    "notes": "Tests semantic retrieval based on user-facing symptoms (500 errors, Bad Gateway, load balancer dropouts) rather than internal root-cause keywords, ensuring the RAG can map symptoms to the correct incident."
+  },
+  {
+    "eval_id": "eval_029",
+    "question": "GitLab.com CI jobs, particularly retries and manually triggered pipelines, fail Git operations with errors about the missing `master` branch or remote reference. What underlying regression affected reference resolution and how was it fixed?",
+    "expected_source_doc_ids": [
+      "incident_5498"
+    ],
+    "style": "narrative",
+    "notes": "Tests semantic retrieval for CI-related pipeline reference lookup failures during manual jobs and retries without relying on issue IDs."
+  },
+  {
+    "eval_id": "eval_030",
+    "question": "GitLab.com starts returning false-positive HTTP 429 responses during merge-request viewing, file edits and GraphQL issue-board requests. What changed in the rate-limiting logic to classify legitimate requests as excessive, and how was it mitigated?",
+    "expected_source_doc_ids": [
+      "incident_6207"
+    ],
+    "style": "narrative",
+    "notes": "Specifies the GraphQL/UI false-positive rate-limiting regression documented in incident_6207, instead of any intermittent 429 error."
+  }
+]
